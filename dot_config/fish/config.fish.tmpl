@@ -24,7 +24,7 @@ alias apt="sudo apt"
 alias apt-get="sudo apt-get"
 alias halt="sudo halt"
 alias reboot="sudo reboot"
-alias rand_secret="dd if=/dev/urandom bs=1k count=1 2>/dev/null | base64 --wrap=0 | tr -dc 'a-zA-Z0-9' | head -c"
+alias rand_secret="dd if=/dev/urandom bs=1k count=1 2>/dev/null | base64 {{ if eq .chezmoi.os "linux" }}--wrap=0{{ end }} | tr -dc 'a-zA-Z0-9' | head -c"
 
 # Other Shorthand
 alias curltime="curl -w \"@$HOME/.curl-format.txt\" -o /dev/null -s "
@@ -40,9 +40,6 @@ set -g HOMEBREW_NO_ANALYTICS 1
 set -g GPG_TTY (tty)
 
 # Path Settings
-if type -q thefuck
-    thefuck --alias | source
-end
 if test -d ~/.local/bin 
     set PATH $PATH ~/.local/bin
 end
