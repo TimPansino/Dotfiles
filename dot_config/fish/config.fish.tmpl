@@ -13,7 +13,7 @@ alias dc="docker-compose"
 alias dr="docker-compose down; and docker-compose up -d"
 alias drl="dc down; and dc up -d --build; and dc logs -f"
 alias dl="dc logs -f"
-alias dkip="docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}'"
+alias dkip="docker inspect -f '\{\{range.NetworkSettings.Networks\}\}\{\{.IPAddress\}\}\{\{end\}\}'"
 alias mr="make down; and make up"
 alias mrl="make down; and make up; and make logs"
 alias ml="make logs"
@@ -57,12 +57,14 @@ function cd
     builtin cd $argv; and pwd; and ls -h
 end
 
+{{ if .chezmoi.config.data.machine.home_server -}}
 function srv
   cd /srv
   if test (id -u) -ne 0
     sudo su
   end
 end
+{{ end -}}
 
 function pidport -a PID
     lsof -n -i4TCP:$PID | grep LISTEN
@@ -140,6 +142,7 @@ function toxeva -a TOX_ENV
     end
 end
 
+{{ if .chezmoi.config.data.machine.work_laptop -}}
 # Activate tox venv
 function toxva -a TOX_VENV_DIR
     if test ! -d ./.tox
@@ -245,6 +248,7 @@ function toxcovdiff -a TOX_ENV1 -a TOX_ENV2 -a PORT
     end
     return 0  # catch all
 end
+{{- end }}
 
 set MEGA_LINTER_RUNNER_PATH (which mega-linter-runner)
 if test -n "$MEGA_LINTER_RUNNER_PATH"
@@ -263,9 +267,3 @@ function sdist
     python setup.py sdist
     openssl md5 -binary dist/$tarball | xxd -p | tr -d '\n' > dist/$tarball.md5
 end
-
-# Source local config file
-if test -f ~/.config.local.fish
-    source ~/.config.local.fish
-end
-
