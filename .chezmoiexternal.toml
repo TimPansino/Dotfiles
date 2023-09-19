@@ -26,3 +26,10 @@
     stripComponents = 1
     refreshPeriod = "168h"
 
+[".pyenv/plugins/pyenv-suffix"]
+    type = "git-repo"
+    url = "https://github.com/AdrianDAlessandro/pyenv-suffix.git"
+    refreshPeriod = "168h"
+    exact = true
+    stripComponents = 1
+

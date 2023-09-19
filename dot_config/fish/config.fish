@@ -6,8 +6,6 @@ alias .="pwd; and ls -h"
 # Python Shorthand
 alias venv="python -m venv"
 alias pipreq="pip install -r requirements.txt" 
-set tox_path (which tox)
-alias tox="PIP_REQUIRE_VIRTUALENV=false $tox_path"
 
 # Docker Shorthand
 alias dk="docker"
@@ -39,6 +37,7 @@ set -g theme_display_user no
 set -g theme_display_hostname no
 set -g VIRTUAL_ENV_DISABLE_PROMPT 1
 set -g HOMEBREW_NO_ANALYTICS 1
+set -g GPG_TTY (tty)
 
 # Path Settings
 if type -q thefuck
@@ -247,13 +246,16 @@ function toxcovdiff -a TOX_ENV1 -a TOX_ENV2 -a PORT
     return 0  # catch all
 end
 
-function mega-linter
-    set BRANCH (git rev-parse --abbrev-ref HEAD)
-    if test -e report/mega-linter.log
-        rm -rf report
+set MEGA_LINTER_RUNNER_PATH (which mega-linter-runner)
+if test -n "$MEGA_LINTER_RUNNER_PATH"
+    function mega-linter
+        set BRANCH (git rev-parse --abbrev-ref HEAD)
+        if test -e report/mega-linter.log
+            rm -rf report
+        end
+        $MEGA_LINTER_RUNNER_PATH $argv
+        git checkout -m $BRANCH
     end
-    /usr/local/bin/mega-linter-runner $argv
-    git checkout -m $BRANCH
 end
 
 function sdist
