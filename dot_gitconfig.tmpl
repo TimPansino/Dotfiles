@@ -1,0 +1,59 @@
+[user]
+    name = Tim Pansino
+    email = timpansino@gmail.com
+{{- if .chezmoi.config.data.machine.work_laptop }}
+    signingkey = 3DA8E22D
+    #name = newrelic
+    #email = opensource@newrelic.com
+{{- end }}
+
+[alias]
+    co = checkout
+    pl = pull
+    plr = pull --rebase
+    br = branch
+    mr = merge
+    mra = merge --abort
+    mrc = merge --continue
+    st = status
+    cm = commit
+    rs = reset
+    rh = reset --hard
+    rso = "!f() { git fetch origin; git reset '@{u}';}; f"
+    rb = rebase -i
+    rba = rebase --abort
+    rbc = rebase --continue
+    sw = switch
+    nb = checkout -b
+    cp = cherry-pick
+    ft = fetch --all --prune --force
+    fp = push --force-with-lease
+    pb = push -u origin HEAD
+    hide = update-index --assume-unchanged
+    unhide = update-index --no-assume-unchanged
+    hidden = ! git ls-files -v | grep '^h' | cut -c3-
+    tags = tag -l
+    drop = reset HEAD^
+    hash = rev-parse ${1:-HEAD}
+    sha = rev-parse ${1:-HEAD}
+
+[core]
+    autocrlf = input
+    safecrlf = true
+    excludesfile = ~/.gitignore
+    editor = vim
+
+[pull]
+    rebase = false
+
+[init]
+    templatedir = ~/.git-templates
+	defaultBranch = main
+
+{{ if .chezmoi.config.data.machine.work_laptop -}}
+[gpg]
+	program = /opt/homebrew/bin/gpg
+
+[commit]
+	gpgsign = true
+{{ end }}
