@@ -1,5 +1,15 @@
+chezmoi:template:missing-key=invalid
+{{- $encryption_key := env "CHEZMOI_ENCRYPTION_KEY" -}}
+{{- $encryption_key = coalesce $encryption_key (promptStringOnce . "encryption_key" "Enter your encryption key") -}}
+{{- $encryption_key = $encryption_key | trim -}}
 sourceDir: "{{ .chezmoi.sourceDir }}"
+
 data:
+    encryption_key: {{ $encryption_key | quote }}
     machine:
         work_laptop: {{ eq .chezmoi.hostname "T23WHWQH20" }}
         home_server: {{ eq .chezmoi.hostname "UNKNOWN" }}
+
+gpg:
+    symmetric: true
+    args: ["--batch", "--no-symkey-cache", "--passphrase", {{ $encryption_key | quote }}]

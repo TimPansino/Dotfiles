@@ -2,6 +2,5 @@
 install.sh
 LICENSE
 README.md
-.config/fish/config.local.fish
 ~/.zshrc_local
 themes/
