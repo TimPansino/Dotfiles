@@ -26,5 +26,4 @@ jobs:
 
       - name: chezmoi Data
         run: |
-          "$HOME/.local/bin/chezmoi" data
-
+          fish -c "chezmoi_ci_test"
