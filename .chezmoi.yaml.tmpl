@@ -1,6 +1,5 @@
 chezmoi:template:missing-key=invalid
-{{- $encryption_key := env "CHEZMOI_ENCRYPTION_KEY" -}}
-{{- $encryption_key = coalesce $encryption_key (promptStringOnce . "encryption_key" "Enter your encryption key") -}}
+{{- $encryption_key := coalesce (env "CHEZMOI_ENCRYPTION_KEY") .chezmoi.config.data.encryption_key -}}
 {{- $encryption_key = $encryption_key | trim -}}
 sourceDir: "{{ .chezmoi.sourceDir }}"
 
