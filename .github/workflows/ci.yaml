@@ -11,6 +11,7 @@ jobs:
       image: mcr.microsoft.com/vscode/devcontainers/base:ubuntu
       env:
         CODESPACES: true
+        CHEZMOI_ENCRYPTION_KEY: ${{ secrets.CHEZMOI_ENCRYPTION_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -24,5 +25,6 @@ jobs:
         run: ./install.sh
 
       - name: chezmoi Data
-        run: '"$HOME/.local/bin/chezmoi" data'
+        run: |
+          "$HOME/.local/bin/chezmoi" data
 

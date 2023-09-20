@@ -1,12 +1,14 @@
 chezmoi:template:missing-key=invalid
 {{- $encryption_key := coalesce (env "CHEZMOI_ENCRYPTION_KEY") .chezmoi.config.data.encryption_key -}}
 {{- $encryption_key = $encryption_key | trim -}}
+{{- $container := (or (eq (env "REMOTE_CONTAINERS") "true") (eq (env "CODESPACES") "true") (eq (env "GITHUB_ACTIONS") "true")) -}}
 sourceDir: "{{ .chezmoi.sourceDir }}"
 
 data:
     encryption_key: {{ $encryption_key | quote }}
     machine:
-        work_laptop: {{ or (eq .chezmoi.hostname "T23WHWQH20") (eq (env "REMOTE_CONTAINERS") "true") }}
+        container: {{ $container }}
+        work_laptop: {{ or (eq .chezmoi.hostname "T23WHWQH20") $container }}
         home_server: {{ eq .chezmoi.hostname "UNKNOWN" }}
 
 gpg:
