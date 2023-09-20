@@ -11,4 +11,4 @@ data:
 
 gpg:
     symmetric: true
-    args: ["--batch", "--no-symkey-cache", "--passphrase", {{ $encryption_key | quote }}]
+    args: ["--quiet", "--batch", "--no-symkey-cache", "--passphrase", {{ $encryption_key | quote }}]
