@@ -1,8 +1,5 @@
 #!/bin/sh
-
-# -e: exit on error
-# -u: exit on unset variables
-set -eu
+set -euo pipefail
 
 if ! chezmoi="$(command -v chezmoi)"; then
   bin_dir="${HOME}/.local/bin"
@@ -23,7 +20,8 @@ fi
 # POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
 script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 
-echo "Running 'chezmoi $*'" >&2
+echo "Initializing chezmoi"
 $chezmoi init --source="${script_dir}"
+echo "Applying files from chezmoi"
 $chezmoi apply
 echo "chezmoi succeeded!"
