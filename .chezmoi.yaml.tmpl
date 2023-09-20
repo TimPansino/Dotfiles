@@ -6,7 +6,7 @@ sourceDir: "{{ .chezmoi.sourceDir }}"
 data:
     encryption_key: {{ $encryption_key | quote }}
     machine:
-        work_laptop: {{ eq .chezmoi.hostname "T23WHWQH20" }}
+        work_laptop: {{ eq .chezmoi.hostname "T23WHWQH20" or eq (env "REMOTE_CONTAINERS") "true" }}
         home_server: {{ eq .chezmoi.hostname "UNKNOWN" }}
 
 gpg:
