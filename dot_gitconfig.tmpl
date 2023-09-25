@@ -36,6 +36,7 @@
     drop = reset HEAD^
     hash = rev-parse ${1:-HEAD}
     sha = rev-parse ${1:-HEAD}
+    hist = log --pretty=format:'%C(yellow)[%ad]%C(reset) %C(green)[%h]%C(reset) | %C(red)%s %C(bold red){{`{{%an}}`}}%C(reset) %C(blue)%d%C(reset)' --graph --date=short
 
 [core]
     autocrlf = input
