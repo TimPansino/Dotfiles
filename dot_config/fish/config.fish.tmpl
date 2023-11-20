@@ -47,6 +47,8 @@ end
 # Source local config
 if test -f ~/.config/fish/config.local.fish
     source ~/.config/fish/config.local.fish
+else if test -f ~/.config.local.fish
+    source ~/.config.local.fish
 end
 
 # Custom functions
