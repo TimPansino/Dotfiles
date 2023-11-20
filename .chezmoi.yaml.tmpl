@@ -1,18 +1,12 @@
 chezmoi:template:missing-key=invalid
-{{- $encryption_key := coalesce (env "CHEZMOI_ENCRYPTION_KEY") .chezmoi.config.data.encryption_key -}}
-{{- $encryption_key = $encryption_key | trim -}}
 {{- $ci := (eq (env "GITHUB_ACTIONS") "true") -}}
 {{- $container := (or (eq (env "REMOTE_CONTAINERS") "true") (eq (env "CODESPACES") "true")) -}}
 sourceDir: "{{ .chezmoi.sourceDir }}"
 
 data:
-    encryption_key: {{ $encryption_key | quote }}
     machine:
         ci: {{ $ci }}
         container: {{ $container }}
         work_laptop: {{ and (not $ci) (or (eq .chezmoi.hostname "T23WHWQH20") $container) }}
         home_server: {{ eq .chezmoi.hostname "UNKNOWN" }}
 
-gpg:
-    symmetric: true
-    args: ["--quiet", "--batch", "--no-symkey-cache", "--passphrase", {{ $encryption_key | quote }}]
